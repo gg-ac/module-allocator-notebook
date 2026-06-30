@@ -1,0 +1,22 @@
+﻿module_id,module_name,semester,credits,module_group,capacity,available_spaces,programme_bsc,programme_psyched,programme_ppst,required_modules,mutually_excluded_modules
+PSYC3501,Health Psychology,1,1,Health/Social,80,80,Yes,Yes,No,,
+PSYC3507,Applied Psychology: Critical Issues,1,1,Health/Social,80,80,Yes,No,No,,
+PSYC3514,Occupational health Psychology,1,1,Health/Social,80,80,Yes,Yes,Yes,,
+PSYC3528,"One Brain, Two Hemispheres",1,1,Cognitive,80,80,Yes,Yes,Yes,,
+PSYC3538,Development of Language and Literacy,1,1,Cognitive,80,80,Yes,Yes,Yes,,
+PSYC3544,Applied Social Psychology,1,1,Health/Social,80,80,Yes,Yes,Yes,,
+PSYC3548,The Biopsychology of Human Energy Balance,1,1,Biological,80,80,Yes,Yes,Yes,,PSYC3502
+PSYC3556,Developmental Psychopathology,1,1,Cognitive,80,80,Yes,Yes,No,,
+PSYC3557,The Visual Interpretation of the Social World,1,1,Biological,80,80,Yes,No,Yes,,
+PSYC3560,"Social Neuroscience, Robotics, and AI",1,1,Biological,80,80,Yes,Yes,No,,
+PSYC3561,Diverse Perspectives on Psychology,1,1,Cognitive,80,80,Yes,Yes,Yes,,
+PSYC3502,The Biopsychology of Human Appetite,2,1,Biological,80,80,Yes,No,Yes,,PSYC3548
+PSYC3505,The Spatial World,2,1,Biological,80,80,Yes,Yes,Yes,,
+PSYC3510,Reasoning and Decision Making,2,1,Cognitive,80,80,Yes,Yes,Yes,,
+PSYC3539,Cognition and Emotion,2,1,Cognitive,80,80,Yes,Yes,Yes,,
+PSYC3540,Historical and Philosophical Foundations of Psychology,2,1,Health/Social,80,80,Yes,Yes,Yes,,
+PSYC3543,Biopsychosocial Issues in Ageing,2,1,Biological,80,80,Yes,No,Yes,,
+PSYC3545,Work psychology: Applying Theory to Practice in the Workplace,2,1,Health/Social,80,80,Yes,Yes,No,,
+PSYC3549,Feminist Social Psychology,2,1,Health/Social,80,80,Yes,Yes,Yes,,
+PSYC3558,Applications of Learning Theory to Psychological Disorders,2,1,Biological,80,80,Yes,Yes,No,,
+PSYC3562,Coaching Psychology,2,1,Cognitive,80,80,Yes,Yes,Yes,,
