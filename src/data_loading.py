@@ -169,7 +169,11 @@ def validate_module_rankings_data(data:pd.DataFrame):
             duplicate_ids = data[data.duplicated('student_id')]['student_id'].unique()
             if (len(duplicate_ids) > 0):
                 errors += [f"Student ID '{s_id}' is used more than once in the Rankings file" for s_id in duplicate_ids]
-                
+            
+            students_without_programmes = data[pd.isna(data["programme"])]["student_id"].values
+            if len(students_without_programmes) > 0:
+                errors += [f"Some students had no listed programme: {list(students_without_programmes)}"]
+
     errors += get_replacement_character_error_messages(data)
 
     return errors 
@@ -237,9 +241,6 @@ def load_students(module_rankings_data:pd.DataFrame, module_group_preference_dat
         module_group_preference_data_filepath (Path): Path to the csv file containing preferred numbers of modules per group
         modules (list[Module]): List of Module objects
 
-    Returns:
-        (list[Student], list[Student], list[Student], list[str]): A list of loaded Student objects, a list of students who did 
-        not rank every module, a list of students with missing IDs, a list of module IDs not ranked by the students
     """
       
 
@@ -257,6 +258,7 @@ def load_students(module_rankings_data:pd.DataFrame, module_group_preference_dat
     # Keep track of any students who don't have rankings for all modules
     students_missing_ranks = []
     students_missing_ids = []
+    students_missing_programmes = []
 
     # Get the group preferences for each student
     group_names = [col for col in module_group_preference_data.columns if col not in ["student_name", "student_id"]]
@@ -278,10 +280,15 @@ def load_students(module_rankings_data:pd.DataFrame, module_group_preference_dat
 
         # Create the Student object to contain this student's data
         student_id = r.student_id
+        student_programme = r.programme
         if pd.isna(r.student_id):
             students_missing_ids.append(r.student_name)
             student_id = r.student_name
-        s = Student(r.student_name, str(r.programme).strip(), str(student_id).strip(), loaded_student_module_group_preferences[student_uid], module_rankings, excluded_modules)
+        if pd.isna(student_programme):
+            students_missing_programmes.append(r.student_name)
+            student_programme = "UNDEFINED"
+
+        s = Student(r.student_name, str(student_programme).strip(), str(student_id).strip(), loaded_student_module_group_preferences[student_uid], module_rankings, excluded_modules)
         loaded_students[student_uid] = s        
 
         if not all_modules_are_ranked:
@@ -290,7 +297,7 @@ def load_students(module_rankings_data:pd.DataFrame, module_group_preference_dat
     # List of modules not ranked by the students
     missing_modules = [m.module_id for m in modules if m.module_id not in module_rankings_data.columns]
 
-    return list(loaded_students.values()), students_missing_ranks, students_missing_ids, missing_modules
+    return list(loaded_students.values()), students_missing_ranks, students_missing_ids, students_missing_programmes, missing_modules
 
 def load_module_assignments(module_assignments_data_filepath:Path):
     module_assignments_data = pd.read_csv(module_assignments_data_filepath, encoding="utf-8", encoding_errors="replace")

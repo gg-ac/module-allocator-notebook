@@ -198,7 +198,8 @@ class ModuleAssigner:
 
         student_names = [s.name for s in self._students]
         student_ids = [s.id for s in self._students]
-        names_ids_df = pd.DataFrame({"student_name":student_names, "student_id":student_ids}, index=student_module_group_assigned_student_ids)
+        student_programmes = [s.degree_programme for s in self._students]
+        names_ids_df = pd.DataFrame({"student_name":student_names, "student_id":student_ids, "programme":student_programmes}, index=student_module_group_assigned_student_ids)
 
         student_module_group_preferences_df = pd.DataFrame([{k : s.preferred_modules_per_group[k] for k in s.preferred_modules_per_group.keys()} for s in self._students])
         student_module_group_preferences_df.index = student_module_group_assigned_student_ids
@@ -555,6 +556,7 @@ class ModuleAssigner:
 
 
 def run_assignments(
+    programme_to_assign: str,
     repetition: int,
     previous_assignment: ModuleAssigner | None,
     halt_after_n_assignments: int,
@@ -575,8 +577,11 @@ def run_assignments(
     successful_assignment_mean_scores = []
     successful_assignment_median_scores = []
 
+
+    selected_students = [s for s in students if s.degree_programme == programme_to_assign]
+
     module_assigner = ModuleAssigner(
-        students,
+        selected_students,
         modules,
         required_credits_per_student,
         max_credits_per_group,
@@ -585,6 +590,7 @@ def run_assignments(
         min_credits_per_semester,
         random_seed,
     )
+
 
     #print(f"Module assigner seed: {module_assigner._random_seed}")
 
@@ -638,6 +644,10 @@ def run_assignments(
             )
             if (current_mean_score >= previous_mean_score) and (current_overallocation_mean <= previous_overallocation_mean):
                 best_assignment = successful_assignments[0]
-                print(f"Updated best assignment {repetition} {previous_mean_score} {current_mean_score}")
-            
-    return best_assignment
+                print(f"Updated best assignment: Repetition {repetition}; Previous Satisfaction Score: {previous_mean_score}, Current Satisfaction Score: {current_mean_score}")
+    
+    modified_modules = None
+    if best_assignment != None:
+        modified_modules = best_assignment._modules
+    
+    return best_assignment, modified_modules
