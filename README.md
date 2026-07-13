@@ -36,7 +36,8 @@ This will generate a new user interface section where you can input the constrai
 - ```Stop After (N Modules Per Student)```: The number of modules to allocate to each student.
 - ```Optimisation Iterations```: The number of times to run the random allocation before picking the run which had the best average student satisfaction rating.
 - ```Random Seed```: Change this to change the randomisation. Keep it the same to randomise in the same way every time the algorithm is run. You shouldn't need to change this.
-- ```Check Constraints```: When ticked, don't allow finished assignments of students to modules which don't satisfy the constraints above. When unticked, do allow finished assignments of students to modules which don't satisfy the constraints above.
+- ```Check Constraints```: When ticked, don't allow finished assignments of students to modules which don't satisfy the constraints above. When unticked, do allow finished assignments of students to modules which don't satisfy the constraints above. If you want to pause an allocation before students on a programme have been allocated their required number of credits, you will need to untick this (as it is impossible to satisfy >N modules required when stopping after N modules have been assigned).
+- ```Resume from Loaded File```: When ticked, resume the allocation process starting from the partial allocation in the "Prior Allocs" file loaded in Step 1. This file should be formatted like a "module_assignment_summary.csv" output from a previous allocation.
 
 ### Step 3
 Run the code under the heading "Step 3 - Allocation".
